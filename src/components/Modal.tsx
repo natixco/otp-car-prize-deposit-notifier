@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { FC, Fragment, ReactNode, useState } from 'react';
-import clsx from 'clsx';
+import type { ReactNode } from 'react';
+import { Children, cloneElement, Fragment, useState } from 'react';
 
 interface Props {
   title: string;
@@ -8,7 +8,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const Modal: FC<Props> = (props) => {
+export default function Modal(props: Props) {
 
   const [open, setOpen] = useState(true);
 
@@ -30,7 +30,7 @@ export const Modal: FC<Props> = (props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-zinc-200 bg-opacity-50"/>
+            <div className="fixed inset-0 bg-zinc-200 bg-opacity-50" />
           </Transition.Child>
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
@@ -52,8 +52,8 @@ export const Modal: FC<Props> = (props) => {
                     {props.title}
                   </Dialog.Title>
                   <div>
-                    {React.Children.map(props.children, (child: any) =>
-                      React.cloneElement(child, {
+                    {Children.map(props.children, (child: any) =>
+                      cloneElement(child, {
                         closeModal
                       })
                     )}

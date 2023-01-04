@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <header className="mb-6">
-      <div className="main-container flex flex-row items-center justify-between py-6">
+      <div className="main-container flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0 py-6">
         <div className="flex flex-col gap-0.5">
           <h1 className="text-xl font-bold">OTP Gépkocsinyeremény-betét sorsolás értesítő</h1>
           <p className="text-sm font-medium text-zinc-500">{session?.user?.email}</p>

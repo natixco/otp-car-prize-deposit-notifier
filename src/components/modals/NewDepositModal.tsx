@@ -35,7 +35,7 @@ export default function NewDepositModal({ closeModal }: any) {
       <form
         onSubmit={form.handleSubmit((values: NewDepositSchema) => addDepositMutation.mutate(values))}
       >
-        <div className="grid grid-rows-1 grid-cols-[1fr_4fr] gap-2">
+        <div className="grid grid-rows-2 sm:grid-rows-1 grid-cols-1 sm:grid-cols-[1fr_4fr] gap-2">
           <Input
             formField={{
               name: 'series',

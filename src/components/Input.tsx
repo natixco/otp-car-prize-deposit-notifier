@@ -1,10 +1,11 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import type { ReactNode} from 'react';
+import { useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { FieldError, UseFormRegister, UseFormReturn } from 'react-hook-form';
+import type { FieldError, UseFormRegister, UseFormReturn } from 'react-hook-form';
 
 function defaultClassName() {
   return [
-    'relative px-4 h-[40px] w-full sm:text-sm font-medium rounded-md bg-white border border-zinc-300 focus:border-lime-500',
+    'relative px-4 h-[40px] w-full sm:text-sm font-medium rounded-md bg-white border-2 border-zinc-300 focus:border-lime-500',
     'focus:border-primary placeholder:text-zinc-500 outline-none',
   ];
 }

@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     url.searchParams.set('apikey', process.env.ELASTICEMAIL_API_KEY ?? '');
     url.searchParams.set('from', 'noreply@patrikvisloczki.com');
     url.searchParams.set('to', deposit.user.email ?? '');
-    url.searchParams.set('subject', 'Az OTP Gépkocsinyeremény-betéted NYERT');
+    url.searchParams.set('subject', 'Az OTP Gépkocsinyeremény betéted NYERT');
     url.searchParams.set('bodyHtml', replaceParams(winnerDepositEmailHtml, { series, number }));
     const emailRes = await axios.post(url.toString());
     if (emailRes.data.success) {

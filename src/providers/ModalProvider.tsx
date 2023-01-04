@@ -1,9 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import type { ReactNode} from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Modal } from '../components/Modal';
 
 export const ModalContext = createContext({
   open: (title: string, children: ReactNode, size?: any) => {
-  },
+  }
 });
 
 export const useModal = () => useContext(ModalContext);
@@ -27,16 +28,14 @@ export default function ModalProvider(props: Props) {
   }, []);
 
   function open(title: string, children: ReactNode): void {
-    document.documentElement.style.scrollbarGutter = 'stable';
     setModal({
       title,
-      children,
+      children
     });
   }
 
   function onClose(): void {
     setModal(undefined);
-    document.documentElement.style.scrollbarGutter = 'auto';
   }
 
   if (!canRender) {

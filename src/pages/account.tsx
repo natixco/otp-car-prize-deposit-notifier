@@ -1,12 +1,15 @@
 import Header from '../components/Header';
 import { api } from '../utils/api';
-import { ReactNode, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import { Deposit, DepositStatus } from '@prisma/client';
+import type { Deposit } from '@prisma/client';
+import { DepositStatus } from '@prisma/client';
 import clsx from 'clsx';
 import Button from '../components/Button';
 import { useModal } from '../providers/ModalProvider';
 import NewDepositModal from '../components/modals/NewDepositModal';
+import Head from 'next/head';
 
 interface GridProps {
   title: string;
@@ -37,15 +40,15 @@ function Grid(props: GridProps) {
       {props.data?.length === 0 ? <p className="text-zinc-600">{props.emptyDataText}</p> : (
         <div className={clsx(
           'p-4 rounded-lg drop-shadow',
-          props.type === 'won' ? 'bg-gradient-to-br from-lime-500 to-green-500' : 'bg-white',
+          props.type === 'won' ? 'bg-gradient-to-br from-lime-500 to-green-500' : 'bg-white'
         )}>
-          <div className="grid grid-cols-5 grid-rows-[50px] gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-rows-[1fr] gap-4">
             {props.data.map(item => {
               return (
-                <div key={item.series}
+                <div key={item.id}
                      className={clsx(
-                       'flex flex-row items-center p-4 rounded-md bg-gray-100',
-                       props.type === 'pending' ? 'justify-between' : 'justify-center',
+                       'flex flex-row items-center py-2 px-4 rounded-md bg-gray-100',
+                       props.type === 'pending' ? 'justify-between' : 'justify-center'
                      )}>
                   <p className="text-lg font-semibold text-zinc-900">
                     {item.series} {item.number}
@@ -79,11 +82,14 @@ export default function Account() {
 
   return (
     <>
+      <Head>
+        <title>Profil</title>
+      </Head>
       <Header />
       <div className="main-container relative">
         <Grid title="Nyertes betétek" data={wonDeposits} emptyDataText="Még nem nyertél :(" type="won" />
         <Grid title="Betétek" data={pendingDeposits} emptyDataText="Még nincsenek betéteid" type="pending">
-          <Button label="Új hozzáadása" theme="primary" onClick={() => modal.open('Új betét', <NewDepositModal />)}/>
+          <Button label="Új hozzáadása" theme="primary" onClick={() => modal.open('Új betét', <NewDepositModal />)} />
         </Grid>
       </div>
     </>
