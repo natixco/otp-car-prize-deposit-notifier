@@ -1,10 +1,19 @@
-import Head from "next/head";
-import { signOut, useSession } from "next-auth/react";
-import { openPopupWindow } from "../helpers";
-import Button from "../components/Button";
+import Head from 'next/head';
+import { signOut, useSession } from 'next-auth/react';
+import { openPopupWindow } from '../helpers';
+import Button from '../components/Button';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Index() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/account');
+    }
+  }, [router, status]);
 
   return (
     <>
@@ -22,8 +31,11 @@ export default function Index() {
           <span className="mt-4 block text-5xl sm:text-5xl font-black text-zinc-800">sorsolás értesítő</span>
         </h1>
         <div className="flex flex-row items-center mt-10">
-          {session ? <Button label="Kijelentkezés" onClick={() => signOut()} />
-            : <Button label="Bejelentkezés" onClick={() => openPopupWindow("/google-signin", "Sample Sign In")} />}
+          {session ? <Button label="Kijelentkezés" onClick={() => signOut()} theme="secondary" />
+            : <Button label="Bejelentkezés"
+                      theme="secondary"
+                      onClick={() => openPopupWindow('/google-signin', 'Sample Sign In')} />
+          }
         </div>
       </main>
     </>

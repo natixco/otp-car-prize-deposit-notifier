@@ -1,6 +1,5 @@
-import { z } from "zod";
-
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { z } from 'zod';
+import { createTRPCRouter, protectedProcedure } from '../trpc';
 
 export const depositRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -22,6 +21,16 @@ export const depositRouter = createTRPCRouter({
           userId: ctx.session.user.id,
           series: input.series,
           number: input.number
+        }
+      });
+      return deposit;
+    }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const deposit = await ctx.prisma.deposit.delete({
+        where: {
+          id: input.id
         }
       });
       return deposit;
