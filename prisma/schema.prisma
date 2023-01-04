@@ -71,6 +71,12 @@ enum DepositStatus {
   Won
 }
 
+enum NotificationStatus {
+  None
+  Queued
+  Sent
+}
+
 model Deposit {
   id        String  @id @default(cuid())
   series    String? @db.Text
@@ -78,4 +84,5 @@ model Deposit {
   user      User    @relation(fields: [userId], references: [id])
   userId    String
   status    DepositStatus @default(Pending)
+  notificationStatus NotificationStatus @default(None)
 }

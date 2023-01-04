@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { createTRPCRouter, protectedProcedure } from '../trpc';
+import { TRPCError } from '@trpc/server';
 
 export const depositRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -16,7 +17,21 @@ export const depositRouter = createTRPCRouter({
   add: protectedProcedure
     .input(z.object({ series: z.string().min(1), number: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      const deposit = await ctx.prisma.deposit.create({
+      let deposit = await ctx.prisma.deposit.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+          series: input.series,
+          number: input.number
+        }
+      });
+      if (deposit) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'Egy betét már létezik a megadott sorozattal és/vagy sorszámmal.',
+        });
+      }
+
+      deposit = await ctx.prisma.deposit.create({
         data: {
           userId: ctx.session.user.id,
           series: input.series,

@@ -3,6 +3,7 @@ import { useZodForm } from '../../hooks/useZodForm';
 import Button from '../Button';
 import { api } from '../../utils/api';
 import Input from '../Input';
+import { useState } from 'react';
 
 const newDepositSchema = z.object({
   series: z.string().min(2, 'Kötelező').max(2, 'Max 2 szám'),
@@ -17,18 +18,20 @@ export default function NewDepositModal({ closeModal }: any) {
   });
 
   const utils = api.useContext();
+  const [error, setError] = useState('');
   const addDepositMutation = api.deposit.add.useMutation({
     onSuccess: () => {
       utils.deposit.getAll.invalidate();
       closeModal();
     },
     onError: (e) => {
-      console.log(e);
+      setError(e.message);
     }
   });
 
   return (
     <>
+      {error && <p className="text-red-600 mb-4">{error}</p>}
       <form
         onSubmit={form.handleSubmit((values: NewDepositSchema) => addDepositMutation.mutate(values))}
       >
