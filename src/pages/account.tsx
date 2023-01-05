@@ -10,6 +10,7 @@ import Button from '../components/Button';
 import { useModal } from '../providers/ModalProvider';
 import NewDepositModal from '../components/modals/NewDepositModal';
 import Head from 'next/head';
+import ConfirmDepositDeleteModal from '../components/modals/ConfirmDepositDeleteModal';
 
 interface GridProps {
   title: string;
@@ -21,15 +22,7 @@ interface GridProps {
 
 function Grid(props: GridProps) {
 
-  const utils = api.useContext();
-  const deleteDepositMutation = api.deposit.delete.useMutation({
-    onSuccess: () => {
-      utils.deposit.getAll.invalidate();
-    },
-    onError: (e) => {
-      console.log(e);
-    }
-  });
+  const modal = useModal();
 
   return (
     <div className="mb-14">
@@ -54,8 +47,8 @@ function Grid(props: GridProps) {
                     {item.series} {item.number}
                   </p>
                   {props.type === 'pending' &&
-                    <button className="p-2" onClick={() => deleteDepositMutation.mutateAsync({ id: item.id })}>
-                      <TrashIcon className="h-5 w-5 text-zinc-500 hover:text-red-500" />
+                    <button className="p-2 group" onClick={() => modal.open('Betét törlése', <ConfirmDepositDeleteModal deposit={item}/>)}>
+                      <TrashIcon className="h-5 w-5 text-zinc-500 group-hover:text-red-500" />
                     </button>
                   }
                 </div>

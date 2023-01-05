@@ -47,7 +47,7 @@ export default function Modal(props: Props) {
                   className="w-full transform rounded-2xl bg-white p-6 text-left align-middle shadow-md transition-all max-w-md">
                   <Dialog.Title
                     as="h3"
-                    className="mb-4 text-lg font-bold"
+                    className="mb-2 text-lg font-bold"
                   >
                     {props.title}
                   </Dialog.Title>
