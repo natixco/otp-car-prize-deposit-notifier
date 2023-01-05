@@ -1,6 +1,6 @@
 import type { ReactNode} from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Modal } from '../components/Modal';
+import Modal from '../components/Modal';
 
 export const ModalContext = createContext({
   open: (title: string, children: ReactNode, size?: any) => {

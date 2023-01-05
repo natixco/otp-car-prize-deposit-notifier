@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const dom = new JSDOM(otpTextContent);
   const winnerListItems = dom.window.document.querySelectorAll('#mtxt_sorsolasi__container li');
+  const extraWinnerListItems = dom.window.document.querySelectorAll('#mtxt__container li') ?? [];
 
   if (!winnerListItems) {
     return res.status(500).json({ error: 'Could not find the "#mtxt_sorsolasi__container li"' });
@@ -29,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   //   '45 2342345 Toyota Corolla 1,5 sedan Comfort'
   // ];
   const prisma = new PrismaClient();
-  for (const item of [...winnerListItems]) {
+  for (const item of [...winnerListItems, ...extraWinnerListItems]) {
     const split = (item.textContent ?? '').split(' ');
     // const split = item.split(' ');
     const series = split[0] ?? '';
