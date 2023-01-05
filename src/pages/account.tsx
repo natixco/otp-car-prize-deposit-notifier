@@ -89,7 +89,9 @@ export default function Account() {
       <div className="main-container relative">
         <Grid title="Nyertes betétek" data={wonDeposits} emptyDataText="Még nem nyertél :(" type="won" />
         <Grid title="Betétek" data={pendingDeposits} emptyDataText="Még nincsenek betéteid" type="pending">
-          <Button label="Új hozzáadása" theme="primary" onClick={() => modal.open('Új betét', <NewDepositModal />)} />
+          <Button label="Új hozzáadása"
+                  theme="primary"
+                  onClick={() => modal.open('Új betét', <NewDepositModal />)} />
         </Grid>
       </div>
     </>

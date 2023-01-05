@@ -1,6 +1,5 @@
-import { signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Button from './Button';
-import { openPopupWindow } from '../helpers';
 
 export default function Header() {
   const { data: session } = useSession();
@@ -12,8 +11,13 @@ export default function Header() {
           <h1 className="text-xl font-bold">OTP Gépkocsinyeremény-betét sorsolás értesítő</h1>
           <p className="text-sm font-medium text-zinc-500">{session?.user?.email}</p>
         </div>
-        {session ? <Button label="Kijelentkezés" theme="secondary"  onClick={() => signOut({ callbackUrl: window.location.origin })} />
-          : <Button theme="secondary"  label="Bejelentkezés" onClick={() => openPopupWindow('/google-signin', 'Sample Sign In')} />}
+        {session
+          ? <Button label="Kijelentkezés"
+                    theme="secondary"
+                    onClick={() => signOut({ callbackUrl: window.location.origin })} />
+          : <Button label="Bejelentkezés"
+                    theme="secondary"
+                    onClick={() => signIn('google')} />}
       </div>
     </header>
   );
