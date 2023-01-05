@@ -1,5 +1,5 @@
 import { Head, Html, Main, NextScript } from 'next/document';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 
 const Document: NextPage = () => {
   return (

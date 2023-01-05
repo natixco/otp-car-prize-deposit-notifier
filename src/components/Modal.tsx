@@ -66,4 +66,4 @@ export default function Modal(props: Props) {
       </Transition>
     </>
   );
-};
+}
