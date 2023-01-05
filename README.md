@@ -12,3 +12,6 @@ The site enables users to sign-in via Google and add their deposit numbers which
 
 ### Build and run for production
 `npm run build && npm start`
+
+### Run database migrations
+You can find the docs of it [here](https://www.prisma.io/docs/concepts/components/prisma-migrate)

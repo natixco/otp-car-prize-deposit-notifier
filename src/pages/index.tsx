@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Footer from '../components/Footer';
+import GoogleIcon from '../components/GoogleIcon';
 
 export default function Index() {
   const { data: session, status } = useSession();
@@ -40,7 +41,10 @@ export default function Index() {
                         onClick={() => signOut()} theme="secondary" />
               : <Button label="Bejelentkezés"
                         theme="secondary"
-                        onClick={() => signIn('google')} />}
+                        onClick={() => signIn('google')}>
+                <GoogleIcon />
+              </Button>
+            }
           </div>
         </div>
         <Footer />

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 type SizeVariants = 'base' | 'lg';
 type ThemeVariants = 'primary' | 'secondary';
@@ -9,6 +10,7 @@ interface Props {
   type?: 'button' | 'submit';
   size?: SizeVariants;
   theme: ThemeVariants;
+  children?: ReactNode;
 }
 
 const sizeVariants: Record<SizeVariants, string> = {
@@ -33,11 +35,12 @@ export default function Button(props: Props) {
     <button
       type={props.type ?? 'button'}
       className={clsx(
-        'border-2 font-medium rounded-md',
+        'flex flex-row items-center justify-center gap-2 border-2 font-medium rounded-md',
         sizeVariants[props.size ?? 'base'],
         themeVariants[props.theme],
       )}
       onClick={() => internalOnClick()}>
+      {props.children}
       {props.label}
     </button>
   );
