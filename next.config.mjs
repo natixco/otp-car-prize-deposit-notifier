@@ -8,7 +8,7 @@ import axios from "axios";
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
 import { schedule } from "node-cron";
 
-schedule("* * * * *", function() {
+schedule("0 0 20 * *", function() {
   console.log("Crawling data");
   const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.BASE_URL;
   axios.get(`${baseUrl}/api/crawl`)
