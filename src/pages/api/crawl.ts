@@ -52,9 +52,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('WIN', series, number, process.env.ELASTICEMAIL_API_KEY);
 
     const url = new URL('https://api.elasticemail.com/v2/email/send');
-    url.searchParams.set('apikey', process.env.ELASTICEMAIL_API_KEY ?? '');
-    url.searchParams.set('from', 'noreply@patrikvisloczki.com');
-    url.searchParams.set('to', deposit.user.email ?? '');
+    url.searchParams.set('apikey', process.env.ELASTICEMAIL_API_KEY!);
+    url.searchParams.set('from', process.env.FROM_EMAIL!);
+    url.searchParams.set('to', deposit.user.email!);
     url.searchParams.set('subject', 'Az OTP Gépkocsinyeremény betéted NYERT');
     url.searchParams.set('bodyHtml', replaceParams(winnerDepositEmailHtml, { series, number }));
     const emailRes = await axios.post(url.toString());
