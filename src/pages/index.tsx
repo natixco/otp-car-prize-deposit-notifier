@@ -28,9 +28,9 @@ export default function Index() {
           <h1 className="text-black text-center">
             <span
               className="text-3xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-r from-lime-500 to-green-500 bg-clip-text text-transparent italic px-1">
-              OTP Gépkocsinyeremény-betét
+              <span className="pr-1 xs:pr-0">OTP</span> Gépkocsinyeremény-betét
             </span>
-            <span className="mt-4 block text-3xl sm:text-4xl lg:text-5xl font-black text-zinc-800">sorsolás értesítő</span>
+            <span className="mt-1.5 sm:mt-4 block text-2xl sm:text-4xl lg:text-5xl font-black text-zinc-800">sorsolás értesítő</span>
           </h1>
           <div className="flex flex-row items-center mt-10">
             {session ? <Button label="Kijelentkezés" onClick={() => signOut()} theme="secondary" />

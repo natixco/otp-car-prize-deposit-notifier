@@ -5,7 +5,10 @@ module.exports = {
     extend: {
       fontFamily: {
         'sans': ['Inter']
-      }
+      },
+      screens: {
+        'xs': '400px',
+      },
     },
   },
   plugins: [],
