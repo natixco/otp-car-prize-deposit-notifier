@@ -21,7 +21,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const extraWinnerListItems = dom.window.document.querySelectorAll('#mtxt__container li') ?? [];
 
   if (!winnerListItems) {
-    return res.status(500).json({ error: 'Could not find the "#mtxt_sorsolasi__container li"' });
+    console.log('ERROR: could not find the "#mtxt_sorsolasi__container li"');
+    return res.status(500).json({ error: 'could not find the "#mtxt_sorsolasi__container li"' });
   }
 
   // const winnerListItems = [
@@ -37,7 +38,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const number = split[1] ?? '';
 
     if (series.length !== 2 || number.length !== 7) {
-      return res.status(500).json({ error: ':(' });
+      console.log('ERROR: the series\'s or the number\'s length are not correct');
+      return res.status(500).json({ error: 'the series\'s or the number\'s length are not correct' });
     }
 
     const deposit = await prisma.deposit.findFirst({
@@ -45,11 +47,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       include: { user: true }
     });
     if (!deposit) {
-      console.log('LOSE', series, number);
       continue;
     }
-
-    console.log('WIN', series, number, process.env.ELASTICEMAIL_API_KEY);
 
     const url = new URL('https://api.elasticemail.com/v2/email/send');
     url.searchParams.set('apikey', process.env.ELASTICEMAIL_API_KEY!);
@@ -64,6 +63,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: { status: DepositStatus.Won, notificationStatus: NotificationStatus.Sent }
       });
     } else {
+      console.log(`ERROR: ${emailRes.data.error}`);
       res.status(500).json({ error: emailRes.data.error });
     }
   }
