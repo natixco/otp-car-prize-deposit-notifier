@@ -3,14 +3,13 @@ import { api } from '../utils/api';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import type { Deposit } from '@prisma/client';
-import { DepositStatus } from '@prisma/client';
 import clsx from 'clsx';
 import Button from '../components/Button';
 import { useModal } from '../providers/ModalProvider';
 import NewDepositModal from '../components/modals/NewDepositModal';
 import Head from 'next/head';
 import ConfirmDepositDeleteModal from '../components/modals/ConfirmDepositDeleteModal';
+import type { Deposit } from '../server/db/zod-schema';
 
 interface GridProps {
   title: string;
@@ -69,8 +68,8 @@ export default function Account() {
   const [wonDeposits, setWonDeposits] = useState<Deposit[]>([]);
 
   useEffect(() => {
-    setWonDeposits(data?.filter(item => item.status === DepositStatus.Won) ?? []);
-    setPendingDeposits(data?.filter(item => item.status === DepositStatus.Pending) ?? []);
+    setWonDeposits(data?.filter(item => item.status === 'won') ?? []);
+    setPendingDeposits(data?.filter(item => item.status === 'pending') ?? []);
   }, [data]);
 
   return (

@@ -1,6 +1,8 @@
-import { DepositStatus, PrismaClient } from '@prisma/client';
 import { JSDOM } from 'jsdom';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { deposits } from '../../server/db/db-schema';
+import { db } from '../../server/db/db';
+import { eq } from 'drizzle-orm';
 
 const selectors = {
   winnerListItems: '#mtxt_sorsolasi__container li',
@@ -11,8 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.headers && req.headers.Authorization !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).end('Unauthorized');
   }
-
-  const prisma = new PrismaClient();
 
   let otpTextContent = '';
   try {
@@ -33,8 +33,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ error });
   }
 
-  const users = await prisma.user.findMany({
-    include: {
+  const users = await db.query.users.findMany({
+    with: {
       deposits: true
     }
   });
@@ -60,16 +60,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   for (const user of users) {
     for (const deposit of user.deposits) {
       const status = winnerDeposits.some(winnerDeposit => winnerDeposit!.series === deposit.series && winnerDeposit!.number === deposit.number)
-        ? DepositStatus.Won
-        : DepositStatus.Pending;
-      await prisma.deposit.update({
-        where: {
-          id: deposit.id,
-        },
-        data: {
-          status,
-        }
-      });
+        ? 'won'
+        : 'pending';
+      await db
+        .update(deposits)
+        .set({ status })
+        .where(eq(deposits.id, deposit.id));
     }
   }
 

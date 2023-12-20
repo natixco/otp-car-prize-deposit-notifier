@@ -1,24 +1,23 @@
-import { DepositStatus, PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
+import { db } from "../../server/db/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.headers && req.headers.Authorization !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).end('Unauthorized');
   }
 
-  const prisma = new PrismaClient();
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const users = await prisma.user.findMany({
-    include: {
+  const users = await db.query.users.findMany({
+    with: {
       deposits: true
     }
   });
 
   for (const user of users) {
     const emailText = user.deposits.reduce((acc, deposit) => {
-      return `${acc}${deposit.series} ${deposit.number} - ${deposit.status === DepositStatus.Won ? 'Nyert' : 'Nem nyert'}\n`;
+      return `${acc}${deposit.series} ${deposit.number} - ${deposit.status === 'won' ? 'Nyert' : 'Nem nyert'}\n`;
     }, '');
 
     const emailResponse = await resend.emails.send({
