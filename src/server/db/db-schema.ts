@@ -59,8 +59,7 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 export const sessions = pgTable(
   "session",
   {
-    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
-    sessionToken: varchar("sessionToken", { length: 255 }).notNull(),
+    sessionToken: varchar("sessionToken", { length: 255 }).primaryKey(),
     userId: varchar("userId", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   }
