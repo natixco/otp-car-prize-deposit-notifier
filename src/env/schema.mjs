@@ -28,6 +28,7 @@ export const serverSchema = z.object({
       ? z.string().min(1)
       : z.string().min(1).optional(),
   FROM_EMAIL: z.string().min(1),
+  RESEND_API_KEY: z.string().min(1),
 });
 
 /**
