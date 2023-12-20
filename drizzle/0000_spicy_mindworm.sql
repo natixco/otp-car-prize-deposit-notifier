@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS "deposit" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"uuid" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"sessionToken" varchar(255) PRIMARY KEY NOT NULL,
+	"sessionToken" varchar(255) NOT NULL,
 	"userId" varchar(255) NOT NULL,
 	"expires" timestamp NOT NULL
 );
