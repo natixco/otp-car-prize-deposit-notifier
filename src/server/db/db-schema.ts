@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { relations, sql } from "drizzle-orm";
 import {
   index,
@@ -14,7 +15,7 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const users = pgTable(
   "user",
   {
-    id: uuid('id').defaultRandom().primaryKey(),
+    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     name: varchar("name", { length: 255 }),
     email: varchar("email", { length: 255 }).notNull(),
     emailVerified: timestamp("emailVerified", {
@@ -33,7 +34,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const accounts = pgTable(
   "account",
   {
-    id: uuid('id').defaultRandom().primaryKey(),
+    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     userId: varchar("userId", { length: 255 }).notNull(),
     type: varchar("type", { length: 255 })
       .$type<AdapterAccount["type"]>()
@@ -60,7 +61,7 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 export const sessions = pgTable(
   "session",
   {
-    id: uuid('id').defaultRandom().primaryKey(),
+    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     sessionToken: varchar("sessionToken", { length: 255 }).notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
@@ -74,7 +75,7 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 export const verificationTokens = pgTable(
   "verificationToken",
   {
-    id: uuid('id').defaultRandom().primaryKey(),
+    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     identifier: varchar("identifier", { length: 255 }).notNull(),
     token: varchar("token", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
@@ -86,7 +87,7 @@ export const depositStatus = pgEnum('depositStatus', ['pending', 'won']);
 export const deposits = pgTable(
   "deposit",
   {
-    id: uuid('id').defaultRandom().primaryKey(),
+    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     userId: varchar("userId", { length: 255 }).notNull(),
     series: varchar("series", { length: 255 }).notNull(),
     number: varchar("number", { length: 255 }).notNull(),
