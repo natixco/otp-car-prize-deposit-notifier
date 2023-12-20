@@ -22,7 +22,6 @@ export const serverSchema = z.object({
   ),
   GOOGLE_CLIENT_ID: z.string().min(1),
   GOOGLE_CLIENT_SECRET: z.string().min(1),
-  ELASTICEMAIL_API_KEY: z.string().min(1),
   BASE_URL:
     process.env.NODE_ENV === "production"
       ? z.string().min(1)
