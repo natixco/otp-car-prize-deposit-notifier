@@ -93,3 +93,7 @@ export const deposits = pgTable(
     status: depositStatus('status').$default(() => 'pending'),
   }
 );
+
+export const depositsRelations = relations(deposits, ({ one }) => ({
+  user: one(users, { fields: [deposits.userId], references: [users.id] }),
+}));

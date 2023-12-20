@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "vercel-build": "npx tsx ./src/server/db/migrate.ts && next build",
+    "migrate": "npx tsx ./src/server/db/migrate.ts",
+    "vercel-build": "npm run migrate && next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
