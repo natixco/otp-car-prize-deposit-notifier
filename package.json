@@ -9,16 +9,6 @@
     "lint": "next lint",
     "start": "next start"
   },
-  "crons": [
-    {
-      "path": "/api/update",
-      "schedule": "0 0 16 * *"
-    },
-    {
-      "path": "/api/notify",
-      "schedule": "30 0 16 * *"
-    }
-  ],
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
