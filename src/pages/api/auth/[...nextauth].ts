@@ -3,6 +3,9 @@ import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "../../../server/db/db";
 
+import crypto from "node:crypto";
+(globalThis as any).crypto ??= crypto.webcrypto;
+
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
