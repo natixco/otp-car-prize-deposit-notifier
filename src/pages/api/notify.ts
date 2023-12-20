@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { db } from "../../server/db/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.headers && req.headers.Authorization !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).end('Unauthorized');
   }
 
