@@ -1,13 +1,12 @@
 import { createId } from "@paralleldrive/cuid2";
 import { relations, sql } from "drizzle-orm";
 import {
-  index,
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
-  uuid,
   varchar
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
@@ -34,7 +33,6 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const accounts = pgTable(
   "account",
   {
-    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     userId: varchar("userId", { length: 255 }).notNull(),
     type: varchar("type", { length: 255 })
       .$type<AdapterAccount["type"]>()
@@ -50,8 +48,8 @@ export const accounts = pgTable(
     session_state: varchar("session_state", { length: 255 }),
   },
   (account) => ({
-    userIdIdx: index("userId_idx").on(account.userId),
-  })
+    compoundKey: primaryKey({ columns: [account.provider, account.providerAccountId] }),
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -75,11 +73,13 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 export const verificationTokens = pgTable(
   "verificationToken",
   {
-    id: varchar('id', { length: 128 }).$defaultFn(() => createId()).primaryKey(),
     identifier: varchar("identifier", { length: 255 }).notNull(),
     token: varchar("token", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
-  }
+  },
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
+  })
 );
 
 export const depositStatus = pgEnum('depositStatus', ['pending', 'won']);
