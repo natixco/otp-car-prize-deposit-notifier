@@ -61,9 +61,7 @@ export const sessions = pgTable(
   "session",
   {
     id: uuid('uuid').defaultRandom().primaryKey(),
-    sessionToken: varchar("sessionToken", { length: 255 })
-      .notNull()
-      .primaryKey(),
+    sessionToken: varchar("sessionToken", { length: 255 }).notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   }
